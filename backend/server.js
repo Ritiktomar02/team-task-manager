@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import connectDB from "./config/db-connection.js";
+import { seedDemoData } from "./utils/seed.js";
 import userRoute from "./routes/user-route.js";
 import projectRoute from "./routes/project-route.js";
 import taskRoute from "./routes/task-route.js";
@@ -50,6 +51,13 @@ if (process.env.NODE_ENV === "production") {
 
 const startServer = async () => {
   await connectDB();
+  try {
+    await seedDemoData();
+  } catch (err) {
+    if (process.env.NODE_ENV === "development") {
+      console.error("Seed failed:", err);
+    }
+  }
 
   app.listen(PORT, () => {
     if (process.env.NODE_ENV === "development") {

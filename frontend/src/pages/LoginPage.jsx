@@ -1,9 +1,15 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Mail, Lock, Loader2 } from "lucide-react";
+import { Mail, Lock, Loader2, Sparkles } from "lucide-react";
 import UserContext from "../context/UserContext";
 import { api, AUTH } from "../services/api";
+
+const DEMO_PASSWORD = "Demo@123";
+const DEMO_ACCOUNTS = [
+  { label: "Admin", email: "demo.admin@example.com" },
+  { label: "Member", email: "demo.member@example.com" },
+];
 
 const LoginPage = () => {
   const { setUser } = useContext(UserContext);
@@ -13,11 +19,10 @@ const LoginPage = () => {
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const submit = async (creds) => {
     setLoading(true);
     try {
-      const { data } = await api.post(AUTH.LOGIN, form);
+      const { data } = await api.post(AUTH.LOGIN, creds);
       setUser(data.user);
       toast.success("Welcome back");
       navigate("/", { replace: true });
@@ -26,6 +31,16 @@ const LoginPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    submit(form);
+  };
+
+  const onDemoLogin = (email) => {
+    setForm({ email, password: DEMO_PASSWORD });
+    submit({ email, password: DEMO_PASSWORD });
   };
 
   return (
@@ -79,6 +94,32 @@ const LoginPage = () => {
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
           Sign in
         </button>
+
+        <div className="border-t border-slate-700 pt-3">
+          <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Try a demo account — pre-loaded with a project & tasks</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {DEMO_ACCOUNTS.map((d) => (
+              <button
+                key={d.email}
+                type="button"
+                disabled={loading}
+                onClick={() => onDemoLogin(d.email)}
+                className="px-2 py-1.5 rounded-lg border border-slate-700 hover:border-emerald-500/60 hover:bg-emerald-500/5 text-xs text-slate-200 disabled:opacity-60 text-left"
+              >
+                <div className="font-medium text-slate-100">{d.label}</div>
+                <div className="text-[10px] text-slate-400 truncate">
+                  {d.email}
+                </div>
+              </button>
+            ))}
+          </div>
+          <div className="mt-2 text-[10px] text-slate-500 text-center">
+            Password for both: <code className="text-slate-300">{DEMO_PASSWORD}</code>
+          </div>
+        </div>
 
         <p className="text-xs text-slate-400 text-center">
           New here?{" "}

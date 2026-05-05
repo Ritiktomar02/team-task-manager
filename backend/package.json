@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "seed": "node -e \"import('dotenv').then(d=>{d.default.config();return import('./config/db-connection.js')}).then(m=>m.default()).then(()=>import('./utils/seed.js')).then(m=>m.seedDemoData()).then(r=>{console.log(r?'seeded':'already seeded');process.exit(0)}).catch(e=>{console.error(e);process.exit(1)})\""
   },
   "keywords": [],
   "author": "",
