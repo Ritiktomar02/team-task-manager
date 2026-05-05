@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
@@ -37,15 +38,22 @@ app.get("/api/health", (req, res) => {
   res.json({ success: true, status: "ok" });
 });
 
-if (process.env.NODE_ENV === "production") {
-  const clientDist = path.resolve(__dirname, "../frontend/dist");
+// Serve the built React app whenever the build artifact is present (i.e. on
+// Railway). Don't gate on NODE_ENV — Railway can be flaky about exposing it
+// to the runtime, and this is more robust.
+const clientDist = path.resolve(__dirname, "../frontend/dist");
+const hasClientBuild = fs.existsSync(path.join(clientDist, "index.html"));
+
+if (hasClientBuild) {
   app.use(express.static(clientDist));
   app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(clientDist, "index.html"));
   });
 } else {
   app.get("/", (req, res) => {
-    res.send("Server is running");
+    res.send(
+      `Server is running (no client build at ${clientDist}, NODE_ENV=${process.env.NODE_ENV || "unset"})`,
+    );
   });
 }
 
@@ -60,9 +68,9 @@ const startServer = async () => {
   }
 
   app.listen(PORT, () => {
-    if (process.env.NODE_ENV === "development") {
-      console.log(`Server running on port ${PORT}`);
-    }
+    console.log(
+      `Server on port ${PORT} | NODE_ENV=${process.env.NODE_ENV || "unset"} | clientBuild=${hasClientBuild}`,
+    );
   });
 };
 
