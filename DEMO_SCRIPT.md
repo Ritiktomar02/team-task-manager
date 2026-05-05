@@ -1,98 +1,174 @@
-# Demo Video Script (2–4 minutes)
+# Demo Video Script — Team Task Manager
 
-Record at 1080p with screen + mic. Use **two browser windows side-by-side** so
-you can show admin and member views at the same time without logging out — one
-in your normal profile, one in a Chrome incognito / different profile so cookies
-don't collide.
+**Target length:** ~3 minutes (180s). Two browser windows side-by-side
+(one normal, one incognito) so you can show admin + member at the same time.
 
-Total target: ~3 minutes. Speak naturally; bullets are *what to demo*, not
-lines to read.
+The narration column is what to **say**. The actions column is what to **do
+on screen**. Times are guidelines — don't rush, but trim if you run long.
 
 ---
 
-## 0:00–0:15 — Intro
+## 0:00–0:12 — Intro & live URL (12s)
 
-> "Hi, I'm Ritik. This is **Team Task Manager** — a full-stack MERN app where
-> teams create projects, invite members with admin or member roles, assign
-> tasks, and track progress on a dashboard. Backend is Express + MongoDB,
-> frontend is React 19 with Tailwind. Let me walk through it."
+**Action:** Show the live Railway URL in the browser address bar. Be on the login page.
 
-Show: live URL in the browser address bar.
+**Say:**
+> "Hi, I'm Ritik. This is **Team Task Manager** — a full-stack MERN app I
+> built for the assignment. Teams create projects, invite members with
+> admin or member roles, and track tasks through to-do, in-progress, and
+> done. Backend is Express on MongoDB, frontend is React 19 with Tailwind.
+> The whole thing's deployed on Railway as a single service. Let me show you."
 
-## 0:15–0:35 — One-click demo login (Admin)
+---
 
-1. On the login page, point at the **Try a demo account** section.
-2. Click **Admin**.
+## 0:12–0:30 — One-click demo login (18s)
 
-> "I added pre-seeded demo accounts so reviewers can jump straight in. Clicking
-> Admin signs me in as Demo Admin — no signup needed. The data is auto-seeded
-> on first server boot."
+**Action:** Point at the **Try a demo account** section under the form. Click **Admin**. Land on the empty dashboard.
 
-Land on the dashboard.
+**Say:**
+> "I added pre-seeded demo accounts so you don't need to sign up — clicking
+> Admin signs me in as Demo Admin. There's also a regular signup flow
+> below if you'd rather create your own user. Atlas seeds three demo
+> users on first boot."
 
-## 0:35–1:00 — Dashboard
+---
 
-Point out:
-- **4 stat cards:** Projects, To do, In progress, Done
-- **Overdue** section (red) — "Ship press release" is past its due date
-- **My open tasks** — admin's open assignments
-- **Recent activity** — latest 10 tasks across all projects
+## 0:30–0:55 — Empty dashboard tour (25s)
 
-> "The dashboard aggregates across every project I'm a member of and surfaces
-> what needs attention — overdue first, then my own open work."
+**Action:** Stay on the dashboard. Move your cursor over each section as you describe it.
 
-## 1:00–1:30 — Project detail (admin view)
+**Say:**
+> "This is the dashboard. The four cards at the top aggregate across
+> every project I'm a member of — total projects, plus task counts by
+> status: to-do, in progress, and done. Below that is **Overdue** —
+> tasks past their due date that aren't done yet — then **My open
+> tasks**, and **Recent activity**. Right now I'm at zero everywhere
+> because I haven't created any projects, so let me build one live."
 
-1. Click into **Product Launch**.
-2. Show the three columns: **To do / In progress / Done**.
-3. Click **New task** → fill in `Coordinate launch email`, assign to a member, set due date, priority high → Create.
-4. Click an existing task ("Design landing page hero") → change priority or due date → Save.
-5. Switch to the **Members** tab → show the three members with their roles. Show the role dropdown and the remove button.
+---
 
-> "As admin I have full control: create, edit, delete tasks; manage members
-> and their roles."
+## 0:55–1:20 — Create a project (25s)
 
-## 1:30–2:15 — Member view (RBAC enforcement)
+**Action:**
+1. Click **Projects** in the navbar.
+2. Click **New project**.
+3. Fill in: name = `Product Launch`, description = `Q2 launch — landing page, copy, press release`.
+4. Click **Create**.
+5. Click into the newly created project card.
 
-1. Switch to the **second browser window**. From the login page, click **Member**.
-2. Land on the dashboard — note the member's open tasks include the ones assigned to them.
+**Say:**
+> "I navigate to Projects, hit New project, and call it 'Product
+> Launch'. Because I created it, I'm automatically the admin — that's
+> the project creator. The Project model stores members as a
+> sub-document with a role field, and the creator is added to that
+> array with role 'admin' on creation."
+
+---
+
+## 1:20–1:45 — Add a member (25s)
+
+**Action:**
+1. Click the **Members** tab.
+2. In the email field, type `demo.member@example.com`.
+3. Click **Add**.
+4. Show the member appearing with the role "member".
+5. Show the role dropdown and remove button next to them.
+
+**Say:**
+> "Members tab. I add Demo Member by email — they're added as 'member'
+> by default. As admin I can change anyone's role between admin and
+> member, or remove them. The project creator is protected — you can't
+> demote or kick them out. The backend enforces all of this through an
+> `isProjectAdmin` middleware, not just the UI."
+
+---
+
+## 1:45–2:15 — Create tasks (30s)
+
+**Action:** Click **Tasks** tab → **New task**. Create these in quick succession (use the same modal, just keep clicking New task):
+
+1. `Ship press release` — assignee: Demo Member, priority: high, due: **yesterday's date** (so it shows up as overdue).
+2. `Design landing page` — assignee: Demo Member, priority: medium, due: 3 days from now, status: in_progress.
+3. `Write product copy` — assignee: Sara Coder, priority: medium.
+4. `Set up analytics` — assignee: Demo Admin, status: done.
+
+**Say:**
+> "Now four tasks. First — 'Ship press release', assigned to Demo
+> Member, due yesterday on purpose so we'll see it flagged as overdue.
+> Second — 'Design landing page', already in progress. Third —
+> 'Write product copy' assigned to Sara. Fourth — 'Set up analytics',
+> marked done. Each task has title, description, assignee, status,
+> priority, and a due date. Tasks reference the project and the
+> assignee user via Mongo ObjectIds — proper relationships, not
+> embedded copies."
+
+After creating, point at the three columns: **To do / In progress / Done**.
+
+> "The board groups by status. Two to-do, one in progress, one done."
+
+---
+
+## 2:15–2:30 — Dashboard recap (15s)
+
+**Action:** Click the **Dashboard** link in the navbar.
+
+**Say:**
+> "Back on the dashboard, the cards now show one project, four tasks
+> across the columns, and 'Ship press release' shows up in the
+> red **Overdue** section because its due date has passed and the
+> status isn't done."
+
+---
+
+## 2:30–2:55 — Member view + RBAC (25s)
+
+**Action:**
+1. Switch to your **second browser window** (incognito).
+2. On the login page, click **Member**. Land on dashboard.
 3. Open the same project.
-4. Click "Ship press release" (assigned to this member).
-5. Try to change the **title** — show that the field is disabled.
-6. Change **status** to "In progress" → Save → toast.
-7. Click an unassigned task ("Review with stakeholders").
-8. Show "Read-only — you can only update tasks assigned to you."
-9. Switch to **Members** tab — show no Add member form, no role dropdowns, no remove buttons.
+4. Click "Ship press release".
+5. Try to click into the **Title** field — show it's disabled.
+6. Change the **Status** dropdown to "In progress".
+7. Click **Save** → toast appears.
+8. Close modal, click "Write product copy" (assigned to Sara, not me).
+9. Show the read-only banner: "you can only update tasks assigned to you".
 
-> "Members can read everything, but the UI and the API both lock them down:
-> they can only update status on tasks they're assigned to. The server enforces
-> this independently — no client-side workaround possible."
+**Say:**
+> "Same project from the member's account. I can see everything, but
+> watch what happens when I open my assigned task — title, description,
+> assignee, priority, due date are all locked. The only thing I can
+> change is status. I move it to 'In progress' and save. If I open a
+> task assigned to someone else — completely read-only. The server
+> rejects any other field with a 403 — I'm not relying on the UI for
+> security."
 
-## 2:15–2:35 — Back to admin: live update
+---
 
-1. Switch back to the admin window, refresh the project.
-2. Show the task the member just moved is now in the In progress column.
+## 2:55–3:10 — Wrap (15s)
 
-## 2:35–3:00 — Wrap
+**Action:** Switch back to the admin window, refresh the project. The task the member moved is now in the In progress column.
 
-> "That's the role-based flow end-to-end: signup is also there if you want a
-> fresh account, projects, members, tasks, status tracking, and a dashboard
-> with overdue detection. The repo's on GitHub, the live URL is in the form,
-> and there's a README with API docs and the deploy steps. Thanks for watching."
+**Say:**
+> "Refreshing the admin window — the member's status update is
+> reflected immediately. That's the whole flow: auth with httpOnly
+> JWT cookies, projects with member management, tasks with role-based
+> access enforced server-side, and a dashboard that aggregates with
+> overdue detection. GitHub repo and live URL are in the form. Thanks
+> for watching."
 
 ---
 
 ## Pre-recording checklist
 
-- [ ] Live URL is up — visit `<railway-url>/api/health` and check `{ "success": true }`.
-- [ ] Demo data is seeded — log in as `demo.admin@example.com` / `Demo@123` and confirm the **Product Launch** project exists with 5 tasks.
-- [ ] Two browser windows ready: one for Admin, one (incognito or different profile) for Member.
-- [ ] Mic levels OK, no notification chimes (Do Not Disturb on).
+- [ ] Live Railway URL works — open it, then `<URL>/api/health` shows `{ "success": true }`.
+- [ ] Atlas DB has only the **3 demo users** and **no projects/tasks** (run the cleanup once: `mongosh "<your atlas URI>" --eval 'db.projects.deleteMany({});db.tasks.deleteMany({})'`).
+- [ ] Two browser windows: normal profile (admin) + incognito (member).
+- [ ] Demo login buttons work on both windows.
+- [ ] Mic levels OK; macOS Do Not Disturb on so no banner notifications interrupt.
 
 ## Recording tips
 
-- **Mac:** `Cmd+Shift+5` → Record Selected Portion → tick "Built-in Microphone".
-  Or QuickTime → File → New Screen Recording.
-- Pre-rehearse the click path once before hitting record so you don't fumble.
-- Trim with QuickTime (`Edit → Trim`) or iMovie. Export at 1080p.
-- Form caps file size at 1 GB; a 3-min 1080p mp4 is typically 50–150 MB.
+- **Mac:** `Cmd+Shift+5` → Record Selected Portion → tick **Microphone**. Or QuickTime → File → New Screen Recording.
+- Pre-rehearse the click path once before recording so you don't fumble.
+- Trim: QuickTime → Edit → Trim. Export 1080p.
+- Form caps the upload at 1 GB; a 3-min 1080p mp4 is typically 50–150 MB, well under.
